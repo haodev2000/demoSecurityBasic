@@ -7,7 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demoSecurityJWT.dto.UsersDTO;
+import com.example.demoSecurityJWT.entity.Role;
 import com.example.demoSecurityJWT.entity.Users;
+import com.example.demoSecurityJWT.reponsitory.RoleRepository;
 import com.example.demoSecurityJWT.reponsitory.UserReponsitory;
 import com.example.demoSecurityJWT.service.UserService;
 
@@ -17,14 +20,14 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserReponsitory userReponsitory;
 	
+	@Autowired
+	RoleRepository roleRepository;
+	
+
+	
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	@Override
-	public Users addUser(Users userDTO) {
-
-		return userReponsitory.save(userDTO);
-	}
-
+	
 	@Override
 	 public Users findByUsername(String username) {
 	        return userReponsitory.findByUsername(username);
@@ -57,6 +60,22 @@ public class UserServiceImpl implements UserService {
         	 return false;
         }
 			
+	}
+
+	@Override
+	public UsersDTO addUser(UsersDTO usersDTO) {
+		Role r = roleRepository.getById((long) 2);
+		
+		Users u = new Users();
+		
+		u.setUsername(usersDTO.getUsername());
+	    u.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
+
+		u.setRole(r);
+		
+		userReponsitory.save(u);
+		
+		return usersDTO;
 	}
 	
 	

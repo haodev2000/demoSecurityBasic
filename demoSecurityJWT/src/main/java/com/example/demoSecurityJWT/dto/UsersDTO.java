@@ -6,12 +6,7 @@ import lombok.Data;
 
 public class UsersDTO {
 
-    private Integer id;
-
     private String username;
     private String password;
-
-
-    private RoleDTO role;
 	 	
 }

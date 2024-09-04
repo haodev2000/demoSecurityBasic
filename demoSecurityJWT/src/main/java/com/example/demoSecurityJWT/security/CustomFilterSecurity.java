@@ -41,46 +41,55 @@ public class CustomFilterSecurity {
 	}
 	
 
-//	@Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//		
-//		 http.cors().disable()
-//		 .csrf().disable()
-//		 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//		 .and()
-//		 .authorizeHttpRequests()
-//		 .requestMatchers("/api/**")
-//		 .permitAll()
-//		 .anyRequest()
-//		 .authenticated()
-//		 .and()
-//		 .httpBasic();
-//		 
-//		 
-//		 http.addFilterBefore(customerJwtFilter, UsernamePasswordAuthenticationFilter.class);
-//		 
-//		 return http.build();
-//         
-//    }
-	
-	
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		 http
-	        .cors().disable()
-	        .csrf().disable()
-	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-	        .and()
-	        .authorizeHttpRequests()
-	        .requestMatchers("/api/**").permitAll() // Allow access to /login without authentication
-	        .anyRequest().authenticated() // All other requests require authentication
-	        .and()
-	        .httpBasic();
+		 .csrf().disable()
+		 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		 .and()
+		 .authorizeHttpRequests()
+		 .requestMatchers("/api/**")
+		 .permitAll()
+		 .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+		 .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+
+//		 .requestMatchers("/api/user/**").hasAnyRole("ROLE_USER")
+//		 .requestMatchers("/api/user/**").hasAnyRole("ADMIN")
+//		 .requestMatchers("/api/signUp").hasAnyRole("ADMIN", "USER")
+//		 .requestMatchers("/api/login")
+//		 .permitAll()
+		 
+		 .anyRequest()
+		 .authenticated()
+		 .and()
+		 .httpBasic();
+		 
+		 
+		 http.addFilterBefore(customerJwtFilter, UsernamePasswordAuthenticationFilter.class);
 		 
 		 return http.build();
          
     }
+	
+	
+//	@Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//		
+//		 http
+//	        .cors().disable()
+//	        .csrf().disable()
+//	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//	        .and()
+//	        .authorizeHttpRequests()
+//	        .requestMatchers("/api/**").permitAll() // Allow access to /login without authentication
+//	        .anyRequest().authenticated() // All other requests require authentication
+//	        .and()
+//	        .httpBasic();
+//		 
+//		 return http.build();
+//         
+//    }
 	
 
 }
