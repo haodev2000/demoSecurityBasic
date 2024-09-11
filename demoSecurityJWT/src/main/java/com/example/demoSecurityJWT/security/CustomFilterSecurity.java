@@ -53,13 +53,6 @@ public class CustomFilterSecurity {
 		 .permitAll()
 		 .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
 		 .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-
-//		 .requestMatchers("/api/user/**").hasAnyRole("ROLE_USER")
-//		 .requestMatchers("/api/user/**").hasAnyRole("ADMIN")
-//		 .requestMatchers("/api/signUp").hasAnyRole("ADMIN", "USER")
-//		 .requestMatchers("/api/login")
-//		 .permitAll()
-		 
 		 .anyRequest()
 		 .authenticated()
 		 .and()
@@ -69,6 +62,20 @@ public class CustomFilterSecurity {
 		 http.addFilterBefore(customerJwtFilter, UsernamePasswordAuthenticationFilter.class);
 		 
 		 return http.build();
+		
+//		  http
+//	        .csrf().disable()
+//	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//	        .and()
+//	        .authorizeHttpRequests()
+//	        .requestMatchers("/api/**").permitAll()
+//	        .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+//	        .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+//	        .anyRequest().authenticated()
+//	        .and()
+//	        .addFilterBefore(customerJwtFilter, UsernamePasswordAuthenticationFilter.class);
+//	    
+//	    return http.build();
          
     }
 	

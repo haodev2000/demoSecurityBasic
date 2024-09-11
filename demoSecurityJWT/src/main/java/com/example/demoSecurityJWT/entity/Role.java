@@ -12,7 +12,7 @@ import lombok.Data;
 @Table(name = "role_jwt")
 public class Role {
 
-	  	@Id
+	  	@Id 
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	    private String name;
